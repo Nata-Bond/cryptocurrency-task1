@@ -12,8 +12,8 @@ export default class App extends Component {
    }
 
    componentDidMount() {
-  apiCurr.getCurrencies().then(result=>result.sort((a, b)=> a.price - b.price)).then(result=>
-    this.setState({currencies:result}));
+
+    apiCurr.getCurrencies().then(result=>result.sort((a, b)=> a.quote.USD.price - b.quote.USD.price)).then(result=>this.setState({currencies:result}))
   }
         
 

@@ -1,15 +1,31 @@
 import axios from 'axios';
 
-const baseURL = "https://api.nomics.com/v1";
-const keyAPI = "200b8026db2abd296f45150a2d5fe512232f7cec"
+
+const baseURL = "https://cmc-api-proxy-lmvbixv5b-spean92.vercel.app";
 
 
-const getCurrencies = () => {
-    return axios
-    .get(`${baseURL}/currencies/ticker?key=${keyAPI}&ids=BTC,ETH,DOGE&interval=1d,30d&convert=USD&per-page=100&page=1`)
-  .then(response =>  response.data)
+const getCurrencies = async () =>{
+const responsePrices = await axios.get(`${baseURL}/cryptocurrency/quotes/latest?symbol=BTC,DOGE,ETH`)
+const currPrices = (Object.values(responsePrices.data.data));
+
+const responseImg = await axios.get(`${baseURL}/cryptocurrency/info?symbol=BTC,DOGE,ETH&aux=logo`)
+
+const currImg = (Object.values(responseImg.data.data));
+
+
+const mergeByProperty = (target, source, prop) => {
+  source.forEach(sourceElement => {
+    let targetElement = target.find(targetElement => {
+      return sourceElement[prop] === targetElement[prop];
+    })
+    targetElement ? Object.assign(targetElement, sourceElement) : target.push(sourceElement);
+  })
 }
 
+mergeByProperty(currPrices, currImg, 'symbol');
+
+return currPrices
+}
 
 
 
@@ -17,3 +33,5 @@ const getCurrencies = () => {
 export default {
     getCurrencies 
 }
+
+

@@ -19,10 +19,10 @@ const CurrTab = ({currencies}) => {
             <tr key={curr.id}>
                     <td>{index+1}</td>
                     <td>
-                    <img src={curr.logo_url} alt={curr.name} width={20} height={20}/>
+                    <img src={curr.logo} alt={curr.name} width={20} height={20}/>
                     </td>
                     <td>{curr.name}</td>
-                    <td>{curr.price}</td>
+                    <td>{curr.quote.USD.price}</td>
                 </tr> )}
         
             </tbody>
