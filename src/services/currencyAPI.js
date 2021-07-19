@@ -1,4 +1,5 @@
 import axios from "axios";
+import { mergeByProperty } from "./mergeByProperty";
 
 const baseURL = "https://cmc-api-proxy-lmvbixv5b-spean92.vercel.app";
 
@@ -15,17 +16,6 @@ const getCurrencies = async () => {
 
     const currImg = Object.values(responseImg.data.data);
 
-    const mergeByProperty = (target, source, prop) => {
-      source.forEach((sourceElement) => {
-        let targetElement = target.find((targetElement) => {
-          return sourceElement[prop] === targetElement[prop];
-        });
-        targetElement
-          ? Object.assign(targetElement, sourceElement)
-          : target.push(sourceElement);
-      });
-    };
-
     mergeByProperty(currPrices, currImg, "symbol");
 
     return currPrices;
@@ -35,6 +25,7 @@ const getCurrencies = async () => {
   }
 };
 
+// eslint-disable-next-line
 export default {
   getCurrencies,
 };

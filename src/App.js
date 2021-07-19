@@ -6,6 +6,7 @@ import s from "./app.module.css";
 export default class App extends Component {
   state = {
     currencies: [],
+    error: null,
   };
 
   componentDidMount() {
@@ -14,7 +15,10 @@ export default class App extends Component {
       .then((result) =>
         result.sort((a, b) => a.quote.USD.price - b.quote.USD.price)
       )
-      .then((result) => this.setState({ currencies: result }));
+      .then((result) => this.setState({ currencies: result }))
+      .catch((error) => {
+        this.setState({ error: error });
+      });
   }
 
   render() {
