@@ -11,12 +11,20 @@ const getCurrencies = async () => {
     const currPrices = Object.values(responsePrices.data.data);
 
     const responseImg = await axios.get(
-      `${baseURL}/cryptocurrency/info?symbol=BTC,DOGE,ETH&aux=logo`
+      `${baseURL}/cryptocurrency/info?symbol=BTC,DOGE,ETH&aux=logo,urls`
     );
 
     const currImg = Object.values(responseImg.data.data);
 
+    const responsePercChange = await axios.get(
+      `${baseURL}/cryptocurrency/listings/latest`
+    );
+    const currPercChange = Object.values(responsePercChange.data.data).filter(
+      (el) => el.symbol === "BTC" || el.symbol === "DOGE" || el.symbol === "ETH"
+    );
+
     mergeByProperty(currPrices, currImg, "symbol");
+    mergeByProperty(currPrices, currPercChange, "symbol");
 
     return currPrices;
   } catch (error) {
