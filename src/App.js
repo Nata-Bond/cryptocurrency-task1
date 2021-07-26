@@ -25,27 +25,24 @@ export default class App extends Component {
   }
 
   sortedData = (sortField) => {
-    console.log(sortField);
-    const dataToSort = this.state.currencies;
     const sortType = this.state.sort === "asc" ? "desc" : "asc";
-    const orderedData = _.orderBy(dataToSort, sortField, sortType);
+    const orderedData = _.orderBy(this.state.currencies, sortField, sortType);
     this.setState({
       currencies: orderedData,
       sort: sortType,
-      sortField: sortField,
+      sortField,
     });
   };
 
   render() {
     const { currencies, sort, sortField } = this.state;
-    const { sortedData } = this;
     return (
       <section className={s.currSection}>
         <h1>OUR CURRENCIES</h1>
         {
           <CurrTab
             currencies={currencies}
-            onSort={sortedData}
+            onSort={this.sortedData}
             sort={sort}
             sortField={sortField}
           />

@@ -2,11 +2,15 @@ import React from "react";
 import s from "./currTab.module.css";
 
 const CurrTab = ({ currencies, onSort, sort, sortField }) => {
-  const priceClass = (a) => {
-    if (a > 0) {
-      return s.price_go_up;
-    } else {
-      return s.price_go_down;
+  const TrendDirection = (number) => {
+    switch (Math.sign(number)) {
+      case 1:
+        return s.price_go_up;
+      case -1:
+        return s.price_go_down;
+      case 0:
+      default:
+        return s.price_same;
     }
   };
   return (
@@ -58,14 +62,14 @@ const CurrTab = ({ currencies, onSort, sort, sortField }) => {
                 {curr.name}
               </a>
             </td>
-            <td>{curr.quote.USD.price.toFixed(4)}</td>
-            <td className={priceClass(curr.quote.USD.percent_change_1h)}>
+            <td>{curr.quote.USD.price}</td>
+            <td className={TrendDirection(curr.quote.USD.percent_change_1h)}>
               {curr.quote.USD.percent_change_1h.toFixed(2)} %
             </td>
-            <td className={priceClass(curr.quote.USD.percent_change_24h)}>
+            <td className={TrendDirection(curr.quote.USD.percent_change_24h)}>
               {curr.quote.USD.percent_change_24h.toFixed(2)} %
             </td>
-            <td className={priceClass(curr.quote.USD.percent_change_7d)}>
+            <td className={TrendDirection(curr.quote.USD.percent_change_7d)}>
               {curr.quote.USD.percent_change_7d.toFixed(2)} %
             </td>
           </tr>

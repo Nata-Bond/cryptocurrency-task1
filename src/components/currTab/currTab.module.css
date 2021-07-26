@@ -9,7 +9,7 @@
 }
 th {
   background: #f5d140;
-  text-shadow: 0 1px 1px #2d2020;
+  text-shadow: 0 1px 1px #434141;
   padding: 10px 20px;
 }
 th,
@@ -31,7 +31,7 @@ th:last-child {
 }
 td {
   padding: 10px 20px;
-  background: #f7efd1;
+  background: #f5efda;
 }
 tr:last-child td:first-child {
   border-radius: 0 0 0 10px;
@@ -44,11 +44,15 @@ tr td:last-child {
 }
 
 .price_go_up {
-  background-color: #c6ea94;
+  background-color: #cce7a6;
 }
 
 .price_go_down {
-  background-color: #f8d2bd;
+  background-color: #f7d9ca;
+}
+
+.price_same {
+  background: #f5efda;
 }
 
 .link_to_curr {
