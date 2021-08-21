@@ -6,24 +6,34 @@ import s from "./app.module.css";
 import { CRYPTO_LIST } from "./services/variables";
 
 const App = () => {
-  const [currencies, setCurrencies] = useState([]);
-  const [error, setError] = useState(null);
-  const [sort, setSort] = useState("asc");
-  const [sortField, setsortField] = useState("quote.USD.price");
 
-  const [selectedCurrencies, setSelectedCurrencies] = useState(CRYPTO_LIST);
+  const [data, setData] = useState({
+    currencies: [],
+    selectedCurrencies: CRYPTO_LIST,
+    error: null,
+    sort: "asc",
+    sortField: "quote.USD.price"
+    });
+
+
 
   useEffect(() => {
     apiCurr
-      .getCurrencies(selectedCurrencies)
+      .getCurrencies(data.selectedCurrencies)
       .then((result) =>
         result.sort((a, b) => a.quote.USD.price - b.quote.USD.price)
       )
-      .then((result) => setCurrencies(result))
+      .then((result) => setData((prevData) => ({
+        ...prevData,
+        currencies: result
+      })))
       .catch((error) => {
-        setError(error);
+        setData((prevData) => ({
+          ...prevData,
+          error
+        }))
       });
-  }, [selectedCurrencies]);
+  }, [data.selectedCurrencies]);
 
   const deepFind = (obj, path) => {
     return path.reduce((currentLayer, p) => {
@@ -56,13 +66,19 @@ const App = () => {
         return 0;
       });
     }
-    setCurrencies(currencies);
-    setSort(sortType);
-    setsortField(sortField);
+    setData((prevState) => ({
+      ...prevState,
+      sortField,
+      sort: sortType,
+      currencies
+    }))
   };
 
   const AdditionalCurrency = (newCurr) => {
-    setSelectedCurrencies(newCurr.map((el) => el.value));
+    setData((prevData) => ({
+      ...prevData,
+      selectedCurrencies: newCurr.map((el) => el.value)
+    }))
   };
 
   return error ? (
@@ -71,15 +87,15 @@ const App = () => {
     <section className={s.currSection}>
       <Form
         onSubmit={AdditionalCurrency}
-        selectedCurrencies={selectedCurrencies}
+        selectedCurrencies={data.selectedCurrencies}
       />
       <h1>CURRENCIES</h1>
       {
         <CurrTab
-          currencies={currencies}
+          currencies={data.currencies}
           onSort={sortedData}
-          sort={sort}
-          sortField={sortField}
+          sort={data.sort}
+          sortField={data.sortField}
         />
       }
     </section>
