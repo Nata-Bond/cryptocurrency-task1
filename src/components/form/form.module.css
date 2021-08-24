@@ -1,12 +1,12 @@
-.currSection {
-  text-align: center;
-  margin-top: 50px;
-}
-
 .error {
   color: red;
   margin: auto;
   padding-top: 100px;
   width: 700px;
   text-align: center;
+}
+
+.form {
+  width: 900px;
+  margin: 0 auto;
 }
